@@ -14,13 +14,13 @@ local function close()
 
   state.set_window(nil)
   state.set_buffer(nil)
-  state.reset_selection()
   state.stop_close_timer()
 
   local cb = state.user_callback()
   local sel = state.selected()
   if cb and sel then
     cb(sel)
+    state.reset_selection()
     state.set_selected(nil)
   end
 end

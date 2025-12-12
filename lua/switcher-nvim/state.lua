@@ -8,7 +8,7 @@ local popup_win = nil
 local popup_buf = nil
 local items = {}
 local buf_map = {}
-local current_index = 1
+local current_index = 2
 local keymap = "<C-Tab>"
 local timeout_ms = 500
 local user_callback = function(bufnr)
@@ -26,8 +26,8 @@ function State.configure(opts)
 end
 
 function State.reset_selection()
-  current_index = 1
-  selected_bufnr = buf_map[1]
+  current_index = 2
+  selected_bufnr = buf_map[current_index]
 end
 
 function State.keymap()
