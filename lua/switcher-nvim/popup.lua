@@ -87,7 +87,7 @@ local function open()
   end
 
   vim.wo[popup_win].cursorline = true
-  vim.api.nvim_win_set_cursor(popup_win, { 1, 0 })
+  vim.api.nvim_win_set_cursor(popup_win, { state.current_index(), 0 })
 
   state.reset_selection()
   state.start_close_timer(close)
