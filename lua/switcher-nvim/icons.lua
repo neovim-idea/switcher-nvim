@@ -7,14 +7,14 @@ local fallback_icon = "?"
 
 function Icons.get_icon(filename)
   if cache[filename] then
-    return cache[filename]
+    return cache[filename].icon, cache[filename].hl
   end
 
   local extension = filename:match("^.+%.([^%.]+)$")
-  local icon = devicons.get_icon(filename, extension, { default = false }) or fallback_icon
+  local icon, highlight = devicons.get_icon(filename, extension, { default = false })
 
-  cache[filename] = icon
-  return icon
+  cache[filename] = { icon = icon or fallback_icon, hl = highlight }
+  return cache[filename].icon, cache[filename].hl
 end
 
 return Icons

@@ -117,9 +117,13 @@ function State.update_items()
     local name = vim.api.nvim_buf_get_name(b.bufnr)
     local filename = vim.fn.fnamemodify(name, ":t")
     if filename ~= "" then
-      local icon = icons.get_icon(filename)
-      items[i] = " " .. icon .. " " .. filename
+      local icon, icon_hl = icons.get_icon(filename)
       buf_map[i] = b.bufnr
+      items[i] = {
+        text = "  " .. icon .. "  " .. filename,
+        icon_len = vim.fn.strchars(icon),
+        icon_hl = icon_hl,
+      }
     end
   end
 end
