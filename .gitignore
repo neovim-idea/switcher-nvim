@@ -2,3 +2,4 @@
 lazy-lock.json
 **.luarc.json
 .idea/**
+deps/**
