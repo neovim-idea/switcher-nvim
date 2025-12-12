@@ -49,7 +49,9 @@ local function open()
   local height = math.max(#items, 1)
   local width = 30
 
-  local popup_win = popup_lib.create(items, {
+
+  local rows = vim.tbl_map(function(item) return item.text end, items)
+  local popup_win = popup_lib.create(rows, {
     highlight = highlight_prefix,
     line = math.floor(((vim.o.lines - height) / 2) - 1),
     col = math.floor((vim.o.columns - width) / 2),
@@ -63,6 +65,24 @@ local function open()
   state.set_window(popup_win)
   local buf = vim.api.nvim_win_get_buf(popup_win)
   state.set_buffer(buf)
+
+  for i, item in ipairs(items) do
+    if item.icon_hl then
+      -- highlight only the icon
+      -- icon starts at column 2: "  <icon>  filename"
+      local icon_start_col = 2
+      local icon_end_col = icon_start_col + item.icon_len
+
+      vim.api.nvim_buf_add_highlight(
+        buf,
+        -1,
+        item.icon_hl, -- from nvim-web-devicons
+        i - 1, -- line index (0-based)
+        icon_start_col, -- start col
+        icon_end_col -- end col (exclusive)
+      )
+    end
+  end
 
   vim.api.nvim_win_set_option(popup_win, "wrap", false)
   vim.api.nvim_win_set_option(popup_win, "list", false)
@@ -81,7 +101,11 @@ local function open()
 
   -- stolen from neotree
   if vim.version().minor >= 7 then
-    vim.api.nvim_win_set_option(popup_win, "winhighlight", winhighlight .. ",WinSeparator:" .. highlight_prefix .. "Separator")
+    vim.api.nvim_win_set_option(
+      popup_win,
+      "winhighlight",
+      winhighlight .. ",WinSeparator:" .. highlight_prefix .. "Separator"
+    )
   else
     vim.api.nvim_win_set_option(popup_win, "winhighlight", winhighlight)
   end
