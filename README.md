@@ -47,5 +47,6 @@ Plug "neovim-idea/switcher-nvim"
 ## Todo
 
 - [ ] add tests!
+- [x] start from the 2nd
 - [ ] walk the list in reverse order via `C-S-Tab`
-- [ ] start from the 2nd/2nd to last element (no nee)
+  - [ ] and start from the 2nd to last element (no nee)
