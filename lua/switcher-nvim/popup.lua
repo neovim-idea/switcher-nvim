@@ -1,7 +1,7 @@
+local Popup = {}
+
 local popup_lib = require("plenary.popup")
 local state = require("switcher-nvim.state")
-
-local Popup = {}
 
 local border = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
 local highlight_prefix = "NeovimIdeaSwitcher"
@@ -25,23 +25,24 @@ local function close()
   end
 end
 
-local function select_next()
+local function select_next(step_increment)
   local win = state.window()
   if not (win and vim.api.nvim_win_is_valid(win)) then
     return
   end
 
-  local idx = state.increment_index()
-  vim.api.nvim_win_set_cursor(win, { idx, 0 })
+  local next_index = state.increment_index(step_increment)
+  print("next index is " .. next_index)
+  vim.api.nvim_win_set_cursor(win, { next_index, 0 })
 end
 
-local function open()
+local function open_or_step(step_increment)
   state.update_items()
   local items = state.items()
 
   local win = state.window()
   if win and vim.api.nvim_win_is_valid(win) then
-    select_next()
+    select_next(step_increment)
     state.start_close_timer(close)
     return
   end
@@ -49,8 +50,10 @@ local function open()
   local height = math.max(#items, 1)
   local width = 30
 
+  local rows = vim.tbl_map(function(item)
+    return item.text
+  end, items)
 
-  local rows = vim.tbl_map(function(item) return item.text end, items)
   local popup_win = popup_lib.create(rows, {
     highlight = highlight_prefix,
     line = math.floor(((vim.o.lines - height) / 2) - 1),
@@ -73,14 +76,7 @@ local function open()
       local icon_start_col = 2
       local icon_end_col = icon_start_col + item.icon_len
 
-      vim.api.nvim_buf_add_highlight(
-        buf,
-        -1,
-        item.icon_hl, -- from nvim-web-devicons
-        i - 1, -- line index (0-based)
-        icon_start_col, -- start col
-        icon_end_col -- end col (exclusive)
-      )
+      vim.api.nvim_buf_add_highlight(buf, -1, item.icon_hl, i - 1, icon_start_col, icon_end_col)
     end
   end
 
@@ -111,13 +107,21 @@ local function open()
   end
 
   vim.wo[popup_win].cursorline = true
-  vim.api.nvim_win_set_cursor(popup_win, { state.current_index(), 0 })
-
   state.reset_selection()
+  local index = state.current_index(step_increment)
+  vim.api.nvim_win_set_cursor(popup_win, { index, 0 })
+
   state.start_close_timer(close)
 end
 
-Popup.open = open
+function Popup.step_forwards()
+  open_or_step(1)
+end
+
+function Popup.step_backwards()
+  open_or_step(-1)
+end
+
 Popup.close = close
 
 return Popup
