@@ -15,7 +15,6 @@ local user_callback = function(bufnr)
   vim.api.nvim_set_current_buf(bufnr)
 end
 local close_timer = nil
-local selected_bufnr = nil
 
 function State.configure(opts)
   keymap = opts.keymap or keymap
@@ -26,7 +25,6 @@ end
 
 function State.reset_selection()
   current_index = nil
-  selected_bufnr = buf_map[current_index]
 end
 
 function State.keymap()
@@ -51,10 +49,6 @@ end
 
 function State.set_buffer(buf)
   popup_buf = buf
-end
-
-function State.set_selected(bufnr)
-  selected_bufnr = bufnr
 end
 
 function State.selected()
@@ -145,7 +139,6 @@ function State.increment_index(step_increment)
   if current_index < 1 then
     current_index = count - 1
   end
-  selected_bufnr = buf_map[current_index]
   return current_index
 end
 
@@ -159,7 +152,6 @@ function State.current_index(step_increment)
     end
     return current_index
   end
-  selected_bufnr = buf_map[current_index]
   return current_index
 end
 
