@@ -21,7 +21,6 @@ local function close()
   if cb and sel then
     cb(sel)
     state.reset_selection()
-    state.set_selected(nil)
   end
 end
 
