@@ -1,7 +1,6 @@
-local devicons = require("nvim-web-devicons")
-
 local Icons = {}
 
+local devicons = require("nvim-web-devicons")
 local cache = {}
 local fallback_icon = "?"
 

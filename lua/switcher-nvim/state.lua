@@ -1,18 +1,17 @@
+local State = {}
+
 local uv = vim.loop
 local icons = require("switcher-nvim.icons")
-
-local State = {}
 
 -- internal state
 local popup_win = nil
 local popup_buf = nil
 local items = {}
 local buf_map = {}
-local current_index = 2
+local current_index = nil
 local keymap = "<C-Tab>"
 local timeout_ms = 500
 local user_callback = function(bufnr)
-  print("switching to buffer: " .. bufnr) -- TODO Remove!
   vim.api.nvim_set_current_buf(bufnr)
 end
 local close_timer = nil
@@ -26,7 +25,7 @@ function State.configure(opts)
 end
 
 function State.reset_selection()
-  current_index = 2
+  current_index = nil
   selected_bufnr = buf_map[current_index]
 end
 
@@ -59,7 +58,7 @@ function State.set_selected(bufnr)
 end
 
 function State.selected()
-  return selected_bufnr
+  return buf_map[current_index]
 end
 
 function State.user_callback()
@@ -128,17 +127,39 @@ function State.update_items()
   end
 end
 
-function State.increment_index()
+function State.increment_index(step_increment)
   local count = #items
-  current_index = current_index + 1
+  if current_index == nil then
+    if step_increment == -1 then
+      current_index = count - 1
+    else
+      current_index = 2
+    end
+    return current_index
+  end
+
+  current_index = current_index + step_increment
   if current_index > count then
-    current_index = 1
+    current_index = 2
+  end
+  if current_index < 1 then
+    current_index = count - 1
   end
   selected_bufnr = buf_map[current_index]
   return current_index
 end
 
-function State.current_index()
+function State.current_index(step_increment)
+  local count = #items
+  if current_index == nil then
+    if step_increment == -1 then
+      current_index = count - 1
+    else
+      current_index = 2
+    end
+    return current_index
+  end
+  selected_bufnr = buf_map[current_index]
   return current_index
 end
 
