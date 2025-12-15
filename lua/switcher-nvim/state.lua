@@ -141,10 +141,10 @@ function State.increment_index(step_increment)
 
   current_index = current_index + step_increment
   if current_index > count then
-    current_index = 2
+    current_index = 1
   end
   if current_index < 1 then
-    current_index = count - 1
+    current_index = count
   end
   return current_index
 end
