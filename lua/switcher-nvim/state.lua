@@ -113,7 +113,7 @@ function State.update_items()
       local icon, icon_hl = icons.get_icon(filename)
       buf_map[i] = b.bufnr
       items[i] = {
-        text = "  " .. icon .. "  " .. filename,
+        text = "> " .. icon .. "  " .. filename,
         icon_len = vim.fn.strchars(icon),
         icon_hl = icon_hl,
       }

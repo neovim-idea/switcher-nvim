@@ -21,7 +21,7 @@ local defaults = {
 }
 
 function SwitcherNvim.setup(opts)
-  local config = vim.tbl_deep_extend("force", defaults, opts)
+  local config = vim.tbl_deep_extend("force", defaults, opts or {})
   local tf = config.traverse_forwards
   local tb = config.traverse_backwards
 

@@ -7,7 +7,7 @@ A simple, yet powerful switcher, similar to JetBrain's one.
 Requirements:
 
 * plenary
-* nerdfonts
+* nvim-web-dev-icons
 
 
 ## Installation
@@ -48,5 +48,6 @@ Plug "neovim-idea/switcher-nvim"
 
 - [ ] add tests!
 - [x] start from the 2nd
-- [ ] walk the list in reverse order via `C-S-Tab`
-  - [ ] and start from the 2nd to last element (no nee)
+- [x] walk the list in reverse order via `C-S-Tab`
+  - [x] and start from the 2nd to last element (no nee)
+- [ ] add a right side panel for the actions 
