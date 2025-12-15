@@ -11,7 +11,8 @@ local buf_map = {}
 local current_index = nil
 local keymap = "<C-Tab>"
 local timeout_ms = 500
-local chevron = "->"
+local chevron = ""
+-- local chevron = ">"
 local user_callback = function(bufnr)
   vim.api.nvim_set_current_buf(bufnr)
 end
@@ -119,8 +120,8 @@ function State.update_items()
       buf_map[i] = b.bufnr
       items[i] = {
         text = chevron .. " " .. icon .. "  " .. filename,
-        chevron_len = vim.fn.strdisplaywidth(chevron),
-        icon_len = vim.fn.strchars(icon),
+        chevron_len = #chevron,
+        icon_len = vim.fn.strdisplaywidth(icon),
         icon_hl = icon_hl,
       }
     end
