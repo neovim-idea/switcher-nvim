@@ -11,6 +11,7 @@ local buf_map = {}
 local current_index = nil
 local keymap = "<C-Tab>"
 local timeout_ms = 500
+local chevron = "->"
 local user_callback = function(bufnr)
   vim.api.nvim_set_current_buf(bufnr)
 end
@@ -88,6 +89,10 @@ function State.buf_map()
   return buf_map
 end
 
+function State.chevron()
+  return chevron
+end
+
 -- Refresh items based on last-used buffers
 function State.update_items()
   items = {}
@@ -113,7 +118,8 @@ function State.update_items()
       local icon, icon_hl = icons.get_icon(filename)
       buf_map[i] = b.bufnr
       items[i] = {
-        text = "> " .. icon .. "  " .. filename,
+        text = chevron .. " " .. icon .. "  " .. filename,
+        chevron_len = vim.fn.strdisplaywidth(chevron),
         icon_len = vim.fn.strchars(icon),
         icon_hl = icon_hl,
       }

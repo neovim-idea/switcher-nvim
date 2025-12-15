@@ -38,7 +38,7 @@ local function update_active_state(index)
       hl = "NeovimIdeaSwitcherActiveSelection"
     end
     -- Highlight the first character '>'
-    vim.api.nvim_buf_add_highlight(buf, ns, hl, lnum, 0, 1)
+    vim.api.nvim_buf_add_highlight(buf, ns, hl, lnum, 0, vim.fn.strdisplaywidth(state.chevron()))
   end
 end
 
@@ -89,8 +89,8 @@ local function open_or_step(step_increment)
   for i, item in ipairs(items) do
     if item.icon_hl then
       -- highlight only the icon
-      -- icon starts at column 2: "  <icon>  filename"
-      local icon_start_col = 2
+      -- icon starts at column "<chevron_len>  <icon>  filename"
+      local icon_start_col = item.chevron_len + 1
       local icon_end_col = icon_start_col + item.icon_len
 
       vim.api.nvim_buf_add_highlight(buf, -1, item.icon_hl, i - 1, icon_start_col, icon_end_col)
