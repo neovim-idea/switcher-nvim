@@ -9,17 +9,15 @@ local popup_buf = nil
 local items = {}
 local buf_map = {}
 local current_index = nil
-local keymap = "<C-Tab>"
 local timeout_ms = 500
 local chevron = ""
--- local chevron = ">"
 local user_callback = function(bufnr)
   vim.api.nvim_set_current_buf(bufnr)
 end
 local close_timer = nil
 
 function State.configure(opts)
-  keymap = opts.keymap or keymap
+  -- keymap = opts.keymap or keymap
   timeout_ms = opts.timeout_ms or timeout_ms
   -- TODO perhaps let the user choose ot turn it off and use arrows & CR instead of the logic with timers
   user_callback = opts.user_callback or user_callback
@@ -27,10 +25,6 @@ end
 
 function State.reset_selection()
   current_index = nil
-end
-
-function State.keymap()
-  return keymap
 end
 
 function State.timeout()
@@ -91,7 +85,11 @@ function State.buf_map()
 end
 
 function State.chevron()
-  return chevron
+  if (type(chevron) == "string" and chevron:match("%S")) then
+    return chevron .. " "
+  else
+    return " "
+  end
 end
 
 -- Refresh items based on last-used buffers
@@ -116,12 +114,13 @@ function State.update_items()
     local name = vim.api.nvim_buf_get_name(b.bufnr)
     local filename = vim.fn.fnamemodify(name, ":t")
     if filename ~= "" then
-      local icon, icon_hl = icons.get_icon(filename)
+      local file_icon, icon_hl = icons.get_icon(filename)
       buf_map[i] = b.bufnr
+      local prefix = State.chevron()
       items[i] = {
-        text = chevron .. " " .. icon .. "  " .. filename,
-        chevron_len = #chevron,
-        icon_len = vim.fn.strdisplaywidth(icon),
+        text = prefix .. file_icon .. " " .. filename,
+        chevron_len = #prefix,
+        icon_len = vim.fn.strdisplaywidth(file_icon),
         icon_hl = icon_hl,
       }
     end
