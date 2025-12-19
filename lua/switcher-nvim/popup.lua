@@ -117,7 +117,10 @@ local function open_or_step(step_increment)
     .. "CursorLineNC,"
     .. "NormalNC:"
     .. highlight_prefix
-    .. "NormalNC"
+    .. "NormalNC,"
+    .. "FloatBorder:"
+    .. highlight_prefix
+    .. "FloatBorder"
 
   -- stolen from neotree
   if vim.version().minor >= 7 then
