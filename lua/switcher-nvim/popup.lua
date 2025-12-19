@@ -37,8 +37,13 @@ local function update_active_state(index)
     if lnum == index - 1 then
       hl = "NeovimIdeaSwitcherActiveSelection"
     end
-    -- Highlight the chevron symbol
-    vim.api.nvim_buf_add_highlight(buf, ns, hl, lnum, 0, vim.fn.strdisplaywidth(state.chevron()))
+
+    local left_offset = #state.prefix()
+    local right_offset = left_offset + 2
+
+    -- Highlight the chevron symbol & icon margin
+    vim.api.nvim_buf_add_highlight(buf, ns, hl, lnum, 0, (left_offset))
+    vim.api.nvim_buf_add_highlight(buf, ns, hl, lnum, (right_offset ), (right_offset + #state.icon_margin_right() + 1))
   end
 end
 
@@ -88,12 +93,10 @@ local function open_or_step(step_increment)
 
   for i, item in ipairs(items) do
     if item.icon_hl then
-      -- highlight only the icon
-      -- icon starts at column "<chevron_len>  <icon>  filename"
-      local icon_start_col = #state.chevron()
-      local icon_end_col = icon_start_col + item.icon_len
-
-      vim.api.nvim_buf_add_highlight(buf, -1, item.icon_hl, i - 1, icon_start_col, icon_end_col)
+      -- highlight only the icon, which starts after the prefix
+      local prefix_start_col = #state.prefix()
+      local prefix_end_col = prefix_start_col + item.icon_len
+      vim.api.nvim_buf_add_highlight(buf, -1, item.icon_hl, i - 1, prefix_start_col, prefix_end_col)
     end
   end
 

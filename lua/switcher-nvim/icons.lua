@@ -2,7 +2,7 @@ local Icons = {}
 
 local devicons = require("nvim-web-devicons")
 local cache = {}
-local fallback_icon = "?"
+local fallback_icon = ""
 
 function Icons.get_icon(filename)
   if cache[filename] then
