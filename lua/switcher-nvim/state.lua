@@ -3,9 +3,8 @@ local State = {}
 local uv = vim.loop
 local icons = require("switcher-nvim.icons")
 
-local indicators = {}
-
 -- internal state
+local selection = {}
 local popup_win = nil
 local popup_buf = nil
 local items = {}
@@ -16,8 +15,8 @@ local user_callback = function(bufnr)
 end
 local close_timer = nil
 
-function State.configure(options)
-  indicators = vim.tbl_deep_extend("force", options, {})
+function State.setup(options)
+  selection = vim.tbl_deep_extend("force", options, {})
 end
 
 function State.reset_selection()
@@ -25,7 +24,7 @@ function State.reset_selection()
 end
 
 function State.timeout()
-  return indicators.timeout_ms
+  return selection.timeout_ms
 end
 
 function State.window()
@@ -62,7 +61,7 @@ function State.start_close_timer(cb)
     close_timer:close()
   end
   close_timer = uv.new_timer()
-  close_timer:start(indicators.timeout_ms, 0, vim.schedule_wrap(cb))
+  close_timer:start(selection.timeout_ms, 0, vim.schedule_wrap(cb))
 end
 
 function State.stop_close_timer()
@@ -82,15 +81,15 @@ function State.buf_map()
 end
 
 function State.icon_margin_left()
-  return indicators.icon_margin_left ~= "" and " " .. indicators.icon_margin_left or " "
+  return selection.icon_margin_left ~= "" and " " .. selection.icon_margin_left or " "
 end
 
 function State.icon_margin_right()
-  return indicators.icon_margin_right ~= "" and indicators.icon_margin_right .. " " or " "
+  return selection.icon_margin_right ~= "" and selection.icon_margin_right .. " " or " "
 end
 
 function State.prefix()
-  local chevron = indicators.chevron
+  local chevron = selection.chevron
   if type(chevron) == "string" and chevron:match("%S") then
     return chevron .. State.icon_margin_left()
   else

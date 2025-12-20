@@ -15,14 +15,13 @@ local defaults = {
     keymap = "<C-S-Tab>",
     opts = { noremap = true, desc = "Traverse Open Buffers from least recently accessed first" },
   },
-  --[[Indicators]]
-  indicators = {
+  --[[Selection]]
+  selection = {
     timeout_ms = 500,
-    icon_margin_left  = "",
     icon_margin_right = "",
-    chevron = "󰅂",
+    icon_margin_left  = "",
+    chevron = "",
   },
-  --[[Layout]]
 }
 
 function SwitcherNvim.setup(opts)
@@ -30,7 +29,7 @@ function SwitcherNvim.setup(opts)
   local tf = config.traverse_forwards
   local tb = config.traverse_backwards
 
-  state.configure(config.indicators)
+  state.setup(config.selection)
   vim.keymap.set(tf.mode, tf.keymap, popup.step_forwards, tf.opts)
   vim.keymap.set(tb.mode, tb.keymap, popup.step_backwards, tb.opts)
 end
