@@ -94,13 +94,11 @@ return {
       traverse_forwards = {
         mode = { "n", "i" },
         lhs = "<C-Tab>",
-        rhs = popup.step_forwards,
         opts = { noremap = true, desc = "Traverse Open Buffers from most recently accessed first" },
       },
       traverse_backwards = {
         mode = { "n", "i" },
         lhs = "<C-S-Tab>",
-        rhs = popup.step_backwards,
         opts = { noremap = true, desc = "Traverse Open Buffers from least recently accessed first" },
       },
       --[[Selection]]
@@ -142,3 +140,4 @@ NeovimIdeaSwitcherFloatBorder
 ## Buy me a :beer:
 
 BTC `12CQ1L7qQvF3pPXhAgomnSfWaVkL19nV5F` 
+
