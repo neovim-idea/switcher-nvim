@@ -4,8 +4,16 @@ local popup_lib = require("plenary.popup")
 local state = require("switcher-nvim.state")
 
 local border = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
+local ns = vim.api.nvim_create_namespace("switcher_nvim_ns")
 local highlight_prefix = "NeovimIdeaSwitcher"
-local ns = vim.api.nvim_create_namespace("my_prompt_ns")
+local inactive_highlight = "NeovimIdeaSwitcherInactiveSelection"
+local active_highlight = "NeovimIdeaSwitcherActiveSelection"
+local winhighlight = "Cursor:NeovimIdeaSwitcherCursor,"
+  .. "CursorLine:NeovimIdeaSwitcherCursorLine,"
+  .. "CursorLineNC:NeovimIdeaSwitcherCursorLineNC,"
+  .. "Normal:NeovimIdeaSwitcherNormal,"
+  .. "NormalNC:NeovimIdeaSwitcherNormalNC,"
+  .. "FloatBorder:NeovimIdeaSwitcherFloatBorder"
 
 local function close()
   local win = state.window()
@@ -33,12 +41,13 @@ local function update_active_state(index)
   vim.api.nvim_buf_clear_namespace(buf, ns, 0, -1)
 
   for lnum = 0, line_count - 1 do
-    local hl = "NeovimIdeaSwitcherInactiveSelection"
-    if lnum == index - 1 then
-      hl = "NeovimIdeaSwitcherActiveSelection"
-    end
-    -- Highlight the first character '>'
-    vim.api.nvim_buf_add_highlight(buf, ns, hl, lnum, 0, vim.fn.strdisplaywidth(state.chevron()))
+    local hl = (lnum == index - 1) and active_highlight or inactive_highlight
+    local left_offset = #state.prefix()
+    local right_offset = left_offset + 2
+
+    -- Highlight the chevron symbol & icon margin
+    vim.api.nvim_buf_add_highlight(buf, ns, hl, lnum, 0, left_offset)
+    vim.api.nvim_buf_add_highlight(buf, ns, hl, lnum, right_offset, (right_offset + #state.icon_margin_right() + 1))
   end
 end
 
@@ -56,6 +65,10 @@ end
 local function open_or_step(step_increment)
   state.update_items()
   local items = state.items()
+
+  if #items < 2 then
+    return -- no need to show the popup if there aren't enough items
+  end
 
   local win = state.window()
   if win and vim.api.nvim_win_is_valid(win) then
@@ -88,12 +101,10 @@ local function open_or_step(step_increment)
 
   for i, item in ipairs(items) do
     if item.icon_hl then
-      -- highlight only the icon
-      -- icon starts at column "<chevron_len>  <icon>  filename"
-      local icon_start_col = item.chevron_len + 1
-      local icon_end_col = icon_start_col + item.icon_len
-
-      vim.api.nvim_buf_add_highlight(buf, -1, item.icon_hl, i - 1, icon_start_col, icon_end_col)
+      -- highlight only the icon, which starts after the prefix
+      local prefix_start_col = #state.prefix()
+      local prefix_end_col = prefix_start_col + item.icon_len
+      vim.api.nvim_buf_add_highlight(buf, -1, item.icon_hl, i - 1, prefix_start_col, prefix_end_col)
     end
   end
 
@@ -102,27 +113,9 @@ local function open_or_step(step_increment)
   vim.api.nvim_win_set_option(popup_win, "number", false)
   vim.api.nvim_win_set_option(popup_win, "relativenumber", false)
   vim.api.nvim_win_set_option(popup_win, "cursorline", true)
-
-  local winhighlight = "Cursor:"
-    .. highlight_prefix
-    .. "Cursor,"
-    .. "CursorLine:"
-    .. highlight_prefix
-    .. "CursorLine,"
-    .. "CursorLineNC:"
-    .. highlight_prefix
-    .. "CursorLineNC,"
-    .. "NormalNC:"
-    .. highlight_prefix
-    .. "NormalNC"
-
   -- stolen from neotree
   if vim.version().minor >= 7 then
-    vim.api.nvim_win_set_option(
-      popup_win,
-      "winhighlight",
-      winhighlight .. ",WinSeparator:" .. highlight_prefix .. "Separator"
-    )
+    vim.api.nvim_win_set_option(popup_win, "winhighlight", winhighlight .. ",WinSeparator:NeovimIdeaSwitcherSeparator")
   else
     vim.api.nvim_win_set_option(popup_win, "winhighlight", winhighlight)
   end

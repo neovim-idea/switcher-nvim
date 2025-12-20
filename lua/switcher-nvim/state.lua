@@ -4,37 +4,27 @@ local uv = vim.loop
 local icons = require("switcher-nvim.icons")
 
 -- internal state
+local selection = {}
 local popup_win = nil
 local popup_buf = nil
 local items = {}
 local buf_map = {}
 local current_index = nil
-local keymap = "<C-Tab>"
-local timeout_ms = 500
-local chevron = ""
--- local chevron = ">"
 local user_callback = function(bufnr)
   vim.api.nvim_set_current_buf(bufnr)
 end
 local close_timer = nil
 
-function State.configure(opts)
-  keymap = opts.keymap or keymap
-  timeout_ms = opts.timeout_ms or timeout_ms
-  -- TODO perhaps let the user choose ot turn it off and use arrows & CR instead of the logic with timers
-  user_callback = opts.user_callback or user_callback
+function State.setup(options)
+  selection = vim.tbl_deep_extend("force", options, {})
 end
 
 function State.reset_selection()
   current_index = nil
 end
 
-function State.keymap()
-  return keymap
-end
-
 function State.timeout()
-  return timeout_ms
+  return selection.timeout_ms
 end
 
 function State.window()
@@ -71,7 +61,7 @@ function State.start_close_timer(cb)
     close_timer:close()
   end
   close_timer = uv.new_timer()
-  close_timer:start(timeout_ms, 0, vim.schedule_wrap(cb))
+  close_timer:start(selection.timeout_ms, 0, vim.schedule_wrap(cb))
 end
 
 function State.stop_close_timer()
@@ -90,8 +80,21 @@ function State.buf_map()
   return buf_map
 end
 
-function State.chevron()
-  return chevron
+function State.icon_margin_left()
+  return selection.icon_margin_left ~= "" and " " .. selection.icon_margin_left or " "
+end
+
+function State.icon_margin_right()
+  return selection.icon_margin_right ~= "" and selection.icon_margin_right .. " " or " "
+end
+
+function State.prefix()
+  local chevron = selection.chevron
+  if type(chevron) == "string" and chevron:match("%S") then
+    return chevron .. State.icon_margin_left()
+  else
+    return State.icon_margin_left()
+  end
 end
 
 -- Refresh items based on last-used buffers
@@ -112,16 +115,18 @@ function State.update_items()
     return (a.lastused or 0) > (b.lastused or 0)
   end)
 
+  local prefix = State.prefix()
+  local margin = State.icon_margin_right()
   for i, b in ipairs(filtered) do
     local name = vim.api.nvim_buf_get_name(b.bufnr)
     local filename = vim.fn.fnamemodify(name, ":t")
     if filename ~= "" then
-      local icon, icon_hl = icons.get_icon(filename)
+      local file_icon, icon_hl = icons.get_icon(filename)
       buf_map[i] = b.bufnr
       items[i] = {
-        text = chevron .. " " .. icon .. "  " .. filename,
-        chevron_len = #chevron,
-        icon_len = vim.fn.strdisplaywidth(icon),
+        text = prefix .. file_icon .. margin .. filename,
+        chevron_len = #prefix,
+        icon_len = vim.fn.strdisplaywidth(file_icon),
         icon_hl = icon_hl,
       }
     end
