@@ -137,7 +137,7 @@ function State.increment_index(step_increment)
   local count = #items
   if current_index == nil then
     if step_increment == -1 then
-      current_index = count - 1
+      current_index = count
     else
       current_index = 2
     end
@@ -158,7 +158,7 @@ function State.current_index(step_increment)
   local count = #items
   if current_index == nil then
     if step_increment == -1 then
-      current_index = count - 1
+      current_index = count
     else
       current_index = 2
     end
