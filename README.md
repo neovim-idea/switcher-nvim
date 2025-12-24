@@ -8,9 +8,9 @@
 
 ###### JetBrain's file switcher, for neovim :heart_eyes:
 
-|          DEFAULT (JetBrains)          | CHEVRON                               |                ICON MARGINS                |                MIXED                |
-|:-------------------------------------:|---------------------------------------|:------------------------------------------:|:-----------------------------------:|
-| ![default](docs/default_60x30_V1.gif) | ![chevron](docs/chevron_60x30_V1.gif) | ![default](docs/icon_margins_60x30_V1.gif) | ![default](docs/mixed_60x30_V1.gif) |
+|        DEFAULT (JetBrains)         | CHEVRON                            |                 ICON MARGINS                 |             MIXED              |
+|:----------------------------------:|------------------------------------|:--------------------------------------------:|:------------------------------:|
+| ![default](docs/default_60x35.gif) | ![chevron](docs/chevron_60x35.gif) | ![icon margins](docs/icon_margins_60x35.gif) | ![mixed](docs/mixed_60x35.gif) |
 
 </div>
 
@@ -130,11 +130,11 @@ NeovimIdeaSwitcherFloatBorder
 ## Todo
 
 - [ ] add tests!
-- [ ] protect main branch!
+- [x] protect main branch!
 - [x] check if there are more than 2 buffers open, before opening the popup
 - [x] start from the 2nd
 - [x] walk the list in reverse order via `C-S-Tab`
-    - [x] and start from the 2nd to last element
+    - [x] and start from the last element
 - [ ] add a right side panel for the actions
 
 ## Buy me a :beer:
