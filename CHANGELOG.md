@@ -1,3 +1,14 @@
+## [1.1.1](https://github.com/neovim-idea/switcher-nvim/compare/v1.1.0...v1.1.1) (2025-12-24)
+
+### 📖 Docs
+
+* fix GH weird "gif within table scaling" issue ([b0bd3b8](https://github.com/neovim-idea/switcher-nvim/commit/b0bd3b8d3dbb5c3c063d82da6bfabeebe7f1ba39))
+* updated gifs and README.md ([cab35c9](https://github.com/neovim-idea/switcher-nvim/commit/cab35c953464bd12649c04442bd23d6ebac3234e))
+
+### 🩹 Fixes
+
+* when traversing backwards, start from the last element, not the 2nd to last ([ca1d0ab](https://github.com/neovim-idea/switcher-nvim/commit/ca1d0abee0d0c2ac50e6df340dbb5ba874fcea7d))
+
 ## [1.1.0](https://github.com/neovim-idea/switcher-nvim/compare/v1.0.0...v1.1.0) (2025-12-20)
 
 ### 📖 Docs
