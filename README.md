@@ -62,9 +62,14 @@ Requirements:
 
 ### Lazy
 
+> [!IMPORTANT]
+> The plugin must NOT be lazy loaded!
+
+
 ```lua
 {
   "neovim-idea/switcher-nvim",
+  lazy = false,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons"
