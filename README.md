@@ -8,19 +8,33 @@
 
 ###### JetBrain's file switcher, for neovim :heart_eyes:
 
-|        DEFAULT (JetBrains)         | CHEVRON                            |                 ICON MARGINS                 |             MIXED              |
-|:----------------------------------:|------------------------------------|:--------------------------------------------:|:------------------------------:|
-| ![default](docs/default_60x35.gif) | ![chevron](docs/chevron_60x35.gif) | ![icon margins](docs/icon_margins_60x35.gif) | ![mixed](docs/mixed_60x35.gif) |
-
+<table>
+  <thead>
+    <tr>
+      <th align="center">DEFAULT (JetBrains)</th>
+      <th align="center">CHEVRON</th>
+      <th align="center">ICON MARGINS</th>
+      <th align="center">MIXED</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="docs/default_60x35.gif" width="180" alt="default"/></td>
+      <td><img src="docs/chevron_60x35.gif" width="180" alt="chevron"/></td>
+      <td><img src="docs/icon_margins_60x35.gif" width="180" alt="icon margins"/></td>
+      <td><img src="docs/mixed_60x35.gif" width="180" alt="mixed"/></td>
+    </tr>
+  </tbody>
+</table>
 </div>
 
 <!-- TOC -->
 
 * [Usage](#usage)
 * [Installation](#installation)
-    * [Lazy](#lazy)
-    * [Packer](#packer)
-    * [Plug](#plug)
+  * [Lazy](#lazy)
+  * [Packer](#packer)
+  * [Plug](#plug)
 * [Setup](#setup)
 * [Styling](#styling)
 * [Todo](#todo)
@@ -134,10 +148,9 @@ NeovimIdeaSwitcherFloatBorder
 - [x] check if there are more than 2 buffers open, before opening the popup
 - [x] start from the 2nd
 - [x] walk the list in reverse order via `C-S-Tab`
-    - [x] and start from the last element
+  - [x] and start from the last element
 - [ ] add a right side panel for the actions
 
 ## Buy me a :beer:
 
 BTC `12CQ1L7qQvF3pPXhAgomnSfWaVkL19nV5F` 
-
