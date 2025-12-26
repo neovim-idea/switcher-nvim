@@ -3,7 +3,7 @@ local Popup = {}
 local popup_lib = require("plenary.popup")
 local state = require("switcher-nvim.state")
 
-local border = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
+local borders = nil
 local ns = vim.api.nvim_create_namespace("switcher_nvim_ns")
 local highlight_prefix = "NeovimIdeaSwitcher"
 local inactive_highlight = "NeovimIdeaSwitcherInactiveSelection"
@@ -90,7 +90,7 @@ local function open_or_step(step_increment)
     col = math.floor((vim.o.columns - width) / 2),
     minwidth = width,
     minheight = height,
-    borderchars = border,
+    borderchars = borders,
     enter = false,
     focusable = false,
   })
@@ -131,6 +131,10 @@ local function open_or_step(step_increment)
   vim.api.nvim_win_set_cursor(popup_win, { index, 0 })
 
   state.start_close_timer(close)
+end
+
+function Popup.setup(opts)
+  borders = opts
 end
 
 function Popup.step_forwards()

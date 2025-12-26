@@ -19,9 +19,11 @@ local defaults = {
   selection = {
     timeout_ms = 500,
     icon_margin_right = "",
-    icon_margin_left  = "",
+    icon_margin_left = "",
     chevron = "",
   },
+  --[[Borders]]
+  borders = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
 }
 
 function SwitcherNvim.setup(opts)
@@ -29,6 +31,7 @@ function SwitcherNvim.setup(opts)
   local tf = config.traverse_forwards
   local tb = config.traverse_backwards
 
+  popup.setup(config.borders)
   state.setup(config.selection)
   vim.keymap.set(tf.mode, tf.keymap, popup.step_forwards, tf.opts)
   vim.keymap.set(tb.mode, tb.keymap, popup.step_backwards, tb.opts)
