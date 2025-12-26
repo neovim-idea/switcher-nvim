@@ -15,8 +15,8 @@ local user_callback = function(bufnr)
 end
 local close_timer = nil
 
-function State.setup(options)
-  selection = vim.tbl_deep_extend("force", options, {})
+function State.setup(opts)
+  selection = opts
 end
 
 function State.reset_selection()
