@@ -1,3 +1,13 @@
+## [1.1.2](https://github.com/neovim-idea/switcher-nvim/compare/v1.1.1...v1.1.2) (2025-12-26)
+
+### 📖 Docs
+
+* mention that the plugin must not be lazy loaded ([cbb46a4](https://github.com/neovim-idea/switcher-nvim/commit/cbb46a4665121ed1ca276843362c325f808adf76))
+
+### 🩹 Fixes
+
+* expose `borders` configuration ([c7e37ae](https://github.com/neovim-idea/switcher-nvim/commit/c7e37ae3cec5dd2646cceefc3db5d92a0185cd60))
+
 ## [1.1.1](https://github.com/neovim-idea/switcher-nvim/compare/v1.1.0...v1.1.1) (2025-12-24)
 
 ### 📖 Docs
