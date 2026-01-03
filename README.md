@@ -123,8 +123,8 @@ return {
       --[[Selection]]
       selection = {
         timeout_ms = 500,
-        icon_margin_right = "", -- or "[", "<<<" ... any string, really :) 
-        icon_margin_left  = "", -- or "]", ">>>" ...
+        icon_margin_left = "", -- or "[", "<<<" ... any string, really :) 
+        icon_margin_right  = "", -- or "]", ">>>" ...
         chevron = "", -- or "󰅂" , "󱞩", "-->" ...
       },
       --[[Borders]]
