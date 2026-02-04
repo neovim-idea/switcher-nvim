@@ -1,3 +1,13 @@
+## [1.1.3](https://github.com/neovim-idea/switcher-nvim/compare/v1.1.2...v1.1.3) (2026-02-04)
+
+### 📖 Docs
+
+* fix typo in the Setup section ([01d45a4](https://github.com/neovim-idea/switcher-nvim/commit/01d45a462c2bbebec9f3411b7e6089f52ffa7450))
+
+### 🩹 Fixes
+
+* constraint width & height ([3cbb4ef](https://github.com/neovim-idea/switcher-nvim/commit/3cbb4ef4e47b41391a1dbdb9302c404af2850e6c))
+
 ## [1.1.2](https://github.com/neovim-idea/switcher-nvim/compare/v1.1.1...v1.1.2) (2025-12-26)
 
 ### 📖 Docs
