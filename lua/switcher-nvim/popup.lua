@@ -77,19 +77,23 @@ local function open_or_step(step_increment)
     return
   end
 
-  local height = math.max(#items, 1)
-  local width = 30
+  local lines = vim.o.lines
+  local width = 0
 
   local rows = vim.tbl_map(function(item)
+    width = (#item.text > width) and #item.text or width
     return item.text
   end, items)
 
+  local height = math.floor(math.min(#items, lines / 2))
+  width = math.floor(math.min(vim.o.columns / 3, width))
+
   local popup_win = popup_lib.create(rows, {
     highlight = highlight_prefix,
-    line = math.floor(((vim.o.lines - height) / 2) - 1),
+    line = math.floor(((lines - height) / 2) - 1),
     col = math.floor((vim.o.columns - width) / 2),
     minwidth = width,
-    minheight = height,
+    maxheight = height,
     borderchars = borders,
     enter = false,
     focusable = false,
