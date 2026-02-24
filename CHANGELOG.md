@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/neovim-idea/switcher-nvim/compare/v1.1.3...v1.1.4) (2026-02-24)
+
+### 🩹 Fixes
+
+* constraint width & height ([77287c0](https://github.com/neovim-idea/switcher-nvim/commit/77287c060cb261c7e67b04b7e7e7d7329795aa8b))
+* use `lhs` for keymaps ([a4186b2](https://github.com/neovim-idea/switcher-nvim/commit/a4186b24dc3799c89053e5a08ed4d774b08f069e))
+
 ## [1.1.3](https://github.com/neovim-idea/switcher-nvim/compare/v1.1.2...v1.1.3) (2026-02-04)
 
 ### 📖 Docs
