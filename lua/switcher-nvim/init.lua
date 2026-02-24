@@ -7,12 +7,12 @@ local defaults = {
   --[[General]]
   traverse_forwards = {
     mode = { "n", "i" },
-    keymap = "<C-Tab>",
+    lhs = "<C-Tab>",
     opts = { noremap = true, desc = "Traverse Open Buffers from most recently accessed first" },
   },
   traverse_backwards = {
     mode = { "n", "i" },
-    keymap = "<C-S-Tab>",
+    lhs = "<C-S-Tab>",
     opts = { noremap = true, desc = "Traverse Open Buffers from least recently accessed first" },
   },
   --[[Selection]]
@@ -33,8 +33,8 @@ function SwitcherNvim.setup(opts)
 
   popup.setup(config.borders)
   state.setup(config.selection)
-  vim.keymap.set(tf.mode, tf.keymap, popup.step_forwards, tf.opts)
-  vim.keymap.set(tb.mode, tb.keymap, popup.step_backwards, tb.opts)
+  vim.keymap.set(tf.mode, tf.lhs, popup.step_forwards, tf.opts)
+  vim.keymap.set(tb.mode, tb.lhs, popup.step_backwards, tb.opts)
 end
 
 return SwitcherNvim

@@ -2,6 +2,7 @@ local State = {}
 
 local uv = vim.loop
 local icons = require("switcher-nvim.icons")
+local utils = require("switcher-nvim.utils")
 
 -- internal state
 local selection = {}
@@ -102,18 +103,7 @@ function State.update_items()
   items = {}
   buf_map = {}
 
-  local bufs = vim.fn.getbufinfo({ buflisted = 1 })
-  local filtered = {}
-
-  for _, b in ipairs(bufs) do
-    if b.loaded and vim.api.nvim_buf_get_option(b.bufnr, "modifiable") then
-      table.insert(filtered, b)
-    end
-  end
-
-  table.sort(filtered, function(a, b)
-    return (a.lastused or 0) > (b.lastused or 0)
-  end)
+  local filtered = utils.available_buffers()
 
   local prefix = State.prefix()
   local margin = State.icon_margin_right()
